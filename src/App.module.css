@@ -31,7 +31,8 @@
 
 /* PDF  , Links*/
 .pdf,
-.links {
+.links,
+.module_content {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -49,9 +50,4 @@
 .link_icons {
   color: #059ff9;
   background-color: #7bbee48b;
-}
-.Module_menu {
-  position: absolute;
-  right: 10px;
-  top: 25%;
 }

@@ -4,7 +4,6 @@ import styles from "./App.module.css";
 import Link from "./links/Link";
 import Resource from "./resource/Resource";
 import Module from "./module/Module";
-
 function App() {
   const modules = JSON.parse(localStorage.getItem("modules")) || [];
   const links = JSON.parse(localStorage.getItem("links")) || [];
