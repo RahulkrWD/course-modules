@@ -17,7 +17,7 @@ export default function Module() {
       res.id === id ? { ...res, name: newName } : res
     );
     setModules(updatedModules);
-    localStorage.setItem("uploadedData", JSON.stringify(updatedModules));
+    localStorage.setItem("modules", JSON.stringify(updatedModules));
   };
 
   return (
