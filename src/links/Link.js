@@ -3,13 +3,13 @@ import { FaLink } from "react-icons/fa";
 import LinkMenu from "../links/LinkMenu";
 import styles from "../App.module.css";
 
-function Link() {
+const Link = () => {
   const [links, setLinks] = useState([]);
 
   useEffect(() => {
-    const deleteLinks = JSON.parse(localStorage.getItem("links"));
-    if (deleteLinks) {
-      setLinks(deleteLinks);
+    const storedLinks = JSON.parse(localStorage.getItem("links"));
+    if (storedLinks) {
+      setLinks(storedLinks);
     }
   }, []);
 
@@ -19,36 +19,36 @@ function Link() {
     localStorage.setItem("links", JSON.stringify(updatedLinks));
   };
 
-  const handleRename = (id, newName) => {
-    const updatedResources = links.map((res) =>
-      res.id === id ? { ...res, name: newName } : res
+  const handleRename = (linkId, newName) => {
+    const updatedLinks = links.map((link) =>
+      link.id === linkId ? { ...link, name: newName } : link
     );
-    setLinks(updatedResources);
-    localStorage.setItem("uploadedData", JSON.stringify(updatedResources));
+    setLinks(updatedLinks);
+    localStorage.setItem("links", JSON.stringify(updatedLinks));
   };
 
   return (
     <div className="container">
-      {links.map((item, index) => (
-        <div key={index} className={`container ${styles.links}`}>
+      {links.map((link) => (
+        <div key={link.id} className={`container ${styles.links}`}>
           <div className={` p-1 d-flex gap-3`}>
             <div className={`m-2 ${styles.link_icons}`}>
               <FaLink />
             </div>
             <div>
-              <h6>{item.name}</h6>
+              <h6>{link.name}</h6>
               <h6 className="text-secondary">Link</h6>
             </div>
           </div>
           <LinkMenu
-            links={item}
+            links={link}
             onRename={handleRename}
-            onDelete={() => handleDelete(item.id)}
+            onDelete={() => handleDelete(link.id)}
           />
         </div>
       ))}
     </div>
   );
-}
+};
 
 export default Link;
