@@ -1,101 +1,98 @@
 import React, { useState } from "react";
-import Backdrop from "@mui/material/Backdrop";
-import Box from "@mui/material/Box";
-import Modal from "@mui/material/Modal";
-import Fade from "@mui/material/Fade";
-import { MdCreateNewFolder } from "react-icons/md";
-import { RxCross1 } from "react-icons/rx";
+import { styled } from "@mui/material/styles";
+import ArrowForwardIosSharpIcon from "@mui/icons-material/ArrowForwardIosSharp";
+import MuiAccordion from "@mui/material/Accordion";
+import MuiAccordionSummary from "@mui/material/AccordionSummary";
+import MuiAccordionDetails from "@mui/material/AccordionDetails";
+import ModuleMenu from "./ModuleMenu";
 import styles from "../App.module.css";
 
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 400,
-  height: 230,
-  bgcolor: "background.paper",
-  boxShadow: 24,
-  p: 4,
-  borderRadius: "7px",
-};
+const Accordion = styled((props) => (
+  <MuiAccordion disableGutters elevation={0} square {...props} />
+))(({ theme }) => ({
+  border: `1px solid ${theme.palette.divider}`,
+  "&:not(:last-child)": {
+    borderBottom: 0,
+  },
+  "&::before": {
+    display: "none",
+  },
+}));
 
-export default function TransitionsModal() {
-  const [open, setOpen] = useState(false);
-  const [module, setModule] = useState("");
-  const handleOpen = () => setOpen(true);
+const AccordionSummary = styled((props) => (
+  <MuiAccordionSummary
+    expandIcon={<ArrowForwardIosSharpIcon sx={{ fontSize: "0.9rem" }} />}
+    {...props}
+  />
+))(({ theme }) => ({
+  backgroundColor:
+    theme.palette.mode === "dark"
+      ? "rgba(255, 255, 255, .05)"
+      : "rgba(0, 0, 0, .03)",
+  flexDirection: "row-reverse",
+  "& .MuiAccordionSummary-expandIconWrapper.Mui-expanded": {
+    transform: "rotate(90deg)",
+  },
+  "& .MuiAccordionSummary-content": {
+    marginLeft: theme.spacing(1),
+  },
+}));
 
-  const handleClose = () => {
-    setOpen(false);
-    setModule("");
+const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
+  padding: theme.spacing(2),
+  borderTop: "1px solid rgba(0, 0, 0, .125)",
+}));
+
+export default function CustomizedAccordions() {
+  const [expanded, setExpanded] = useState(false);
+  const [modules, setModules] = useState(
+    JSON.parse(localStorage.getItem("modules")) || []
+  );
+
+  const handleChange = (panel) => (event, newExpanded) => {
+    setExpanded(newExpanded ? panel : false);
   };
 
-  const handleCreateModule = () => {
-    if (module.trim() !== "") {
-      const newModule = { id: Date.now(), name: module };
-      const existingModules = JSON.parse(localStorage.getItem("modules")) || [];
-      const updatedModules = [...existingModules, newModule];
-      localStorage.setItem("modules", JSON.stringify(updatedModules));
-      handleClose();
-    } else {
-      alert("Please enter a module name.");
-    }
+  const handleDelete = (moduleName) => {
+    const updatedModules = modules.filter((module) => module.id !== moduleName);
+    setModules(updatedModules);
+    localStorage.setItem("modules", JSON.stringify(updatedModules));
   };
 
   return (
-    <div>
-      <h6 style={{ cursor: "pointer" }} onClick={handleOpen}>
-        <MdCreateNewFolder /> Create module
-      </h6>
-      <Modal
-        aria-labelledby="transition-modal-title"
-        aria-describedby="transition-modal-description"
-        open={open}
-        onClose={handleClose}
-        closeAfterTransition
-        slots={{ backdrop: Backdrop }}
-        slotProps={{
-          backdrop: {
-            timeout: 500,
-          },
-        }}
-      >
-        <Fade in={open}>
-          <Box sx={style}>
-            <div>
-              <h6 style={{ fontWeight: "bolder" }}>Create new module</h6>
-              <button
-                onClick={handleClose}
-                className={`btn ${styles.close_btn}`}
-              >
-                <RxCross1 />
-              </button>
-            </div>
+    <div className="container">
+      {modules.map((item, index) => (
+        <div className="p-2" key={item.name + index}>
+          <Accordion
+            expanded={expanded === `panel${index}`}
+            onChange={handleChange(`panel${index}`)}
+          >
+            <AccordionSummary
+              aria-controls={`panel${index}d-content`}
+              id={`panel${index}d-header`}
+            >
+              <div>
+                <h6>
+                  <strong>{item.name}</strong>
+                </h6>
 
-            <form style={{ marginTop: "15px" }}>
-              <p>Module name</p>
-              <input
-                onChange={(e) => setModule(e.target.value)}
-                value={module}
-                className="w-100 p-1"
-                type="text"
-                placeholder="Enter Module name"
-              />
-              <div className={styles.module_btn}>
-                <button onClick={handleClose} className="btn m-2">
-                  Cancel
-                </button>
-                <button
-                  onClick={handleCreateModule}
-                  className="btn text-bg-primary m-2"
-                >
-                  Create
-                </button>
+                <h6 className="text-secondary">Add items to this module</h6>
               </div>
-            </form>
-          </Box>
-        </Fade>
-      </Modal>
+              <div className={styles.Module_menu}>
+                <ModuleMenu
+                  moduleName={item.name}
+                  onDelete={() => handleDelete(item.id)}
+                />
+              </div>
+            </AccordionSummary>
+            <AccordionDetails>
+              <div>
+                <h4>Drag and drop</h4>
+              </div>
+            </AccordionDetails>
+          </Accordion>
+        </div>
+      ))}
     </div>
   );
 }

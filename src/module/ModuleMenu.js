@@ -10,6 +10,7 @@ import { PopupContext } from "@mui/base/Unstable_Popup";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { MdDriveFileRenameOutline } from "react-icons/md";
 import { RiDeleteBinLine } from "react-icons/ri";
+
 export default function MenuTransitions({ onDelete }) {
   return (
     <Dropdown>
@@ -19,7 +20,7 @@ export default function MenuTransitions({ onDelete }) {
       </MenuButton>
       <Menu slots={{ listbox: AnimatedListbox }}>
         <MenuItem className="text-secondary">
-          <MdDriveFileRenameOutline /> Edit
+          <MdDriveFileRenameOutline /> Edit module name
         </MenuItem>
         <MenuItem className="text-danger" onClick={onDelete}>
           <RiDeleteBinLine /> Delete
@@ -28,6 +29,11 @@ export default function MenuTransitions({ onDelete }) {
     </Dropdown>
   );
 }
+
+MenuTransitions.propTypes = {
+  moduleName: PropTypes.string.isRequired,
+  onDelete: PropTypes.func.isRequired,
+};
 
 const blue = {
   50: "#F0F7FF",

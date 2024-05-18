@@ -50,5 +50,8 @@
   color: #059ff9;
   background-color: #7bbee48b;
 }
-.link_menu {
+.Module_menu {
+  position: absolute;
+  right: 10px;
+  top: 25%;
 }

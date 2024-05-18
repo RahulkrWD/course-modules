@@ -8,9 +8,9 @@ import { styled } from "@mui/system";
 import { CssTransition } from "@mui/base/Transitions";
 import { PopupContext } from "@mui/base/Unstable_Popup";
 import { IoAddOutline } from "react-icons/io5";
-import Module from "../module/Module";
-import Resource from "../resource/Resource";
-import Link from "../links/Link";
+import Module from "../module/ModuleModel";
+import Resource from "../resource/ResourceModel";
+import Link from "../links/LinkModel";
 export default function MenuTransitions() {
   return (
     <Dropdown>

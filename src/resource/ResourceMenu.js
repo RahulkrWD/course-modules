@@ -9,6 +9,7 @@ import { CssTransition } from "@mui/base/Transitions";
 import { PopupContext } from "@mui/base/Unstable_Popup";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { MdDriveFileRenameOutline } from "react-icons/md";
+import { GoDownload } from "react-icons/go";
 import { RiDeleteBinLine } from "react-icons/ri";
 export default function MenuTransitions({ onDelete }) {
   return (
@@ -19,7 +20,10 @@ export default function MenuTransitions({ onDelete }) {
       </MenuButton>
       <Menu slots={{ listbox: AnimatedListbox }}>
         <MenuItem className="text-secondary">
-          <MdDriveFileRenameOutline /> Edit
+          <MdDriveFileRenameOutline /> Rename
+        </MenuItem>
+        <MenuItem className="text-secondary">
+          <GoDownload /> Download
         </MenuItem>
         <MenuItem className="text-danger" onClick={onDelete}>
           <RiDeleteBinLine /> Delete
