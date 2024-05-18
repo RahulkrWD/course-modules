@@ -11,7 +11,12 @@ import { BsThreeDotsVertical } from "react-icons/bs";
 import { GoDownload } from "react-icons/go";
 import { RiDeleteBinLine } from "react-icons/ri";
 import ResourceRename from "./ResourceRename";
-export default function MenuTransitions({ onRename, onDelete, resource }) {
+export default function MenuTransitions({
+  onRename,
+  onDelete,
+  resource,
+  onDownload,
+}) {
   return (
     <Dropdown>
       <MenuButton>
@@ -22,7 +27,11 @@ export default function MenuTransitions({ onRename, onDelete, resource }) {
         <MenuItem className="text-secondary">
           <ResourceRename onRename={onRename} resource={resource} />
         </MenuItem>
-        <MenuItem sx={{ cursor: "pointer" }} className="text-secondary">
+        <MenuItem
+          onClick={onDownload}
+          sx={{ cursor: "pointer" }}
+          className="text-secondary"
+        >
           <GoDownload /> Download
         </MenuItem>
         <MenuItem

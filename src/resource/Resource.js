@@ -27,6 +27,13 @@ function Resource() {
     localStorage.setItem("uploadedData", JSON.stringify(updatedResources));
   };
 
+  const handleDownload = (url, name) => {
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `${name}.pdf`;
+    link.click();
+  };
+
   return (
     <div className="container">
       {resources.map((item, index) => (
@@ -44,6 +51,7 @@ function Resource() {
             resource={item}
             onRename={handleRename}
             onDelete={() => handleDelete(item.id)}
+            onDownload={() => handleDownload(item.fileData, item.name)}
           />
         </div>
       ))}
