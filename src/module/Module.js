@@ -58,6 +58,13 @@ export default function CustomizedAccordions() {
     setModules(updatedModules);
     localStorage.setItem("modules", JSON.stringify(updatedModules));
   };
+  const handleRename = (id, newName) => {
+    const updatedModules = modules.map((res) =>
+      res.id === id ? { ...res, name: newName } : res
+    );
+    setModules(updatedModules);
+    localStorage.setItem("uploadedData", JSON.stringify(updatedModules));
+  };
 
   return (
     <div className="container">
@@ -80,6 +87,8 @@ export default function CustomizedAccordions() {
               </div>
               <div className={styles.Module_menu}>
                 <ModuleMenu
+                  module={item}
+                  onRename={handleRename}
                   moduleName={item.name}
                   onDelete={() => handleDelete(item.id)}
                 />

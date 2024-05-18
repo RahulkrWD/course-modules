@@ -72,7 +72,7 @@ export default function TransitionsModal() {
               </button>
             </div>
 
-            <form style={{ marginTop: "15px" }}>
+            <form onSubmit={handleCreateModule} style={{ marginTop: "15px" }}>
               <p>Module name</p>
               <input
                 onChange={(e) => setModule(e.target.value)}
@@ -85,10 +85,7 @@ export default function TransitionsModal() {
                 <button onClick={handleClose} className="btn m-2">
                   Cancel
                 </button>
-                <button
-                  onClick={handleCreateModule}
-                  className="btn text-bg-primary m-2"
-                >
+                <button type="submit" className="btn text-bg-primary m-2">
                   Create
                 </button>
               </div>

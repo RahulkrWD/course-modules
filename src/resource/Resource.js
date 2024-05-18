@@ -7,16 +7,24 @@ function Resource() {
   const [resources, setResources] = useState([]);
 
   useEffect(() => {
-    const deleteResources = JSON.parse(localStorage.getItem("uploadedData"));
-    if (deleteResources) {
-      setResources(deleteResources);
+    const storedResources = JSON.parse(localStorage.getItem("uploadedData"));
+    if (storedResources) {
+      setResources(storedResources);
     }
   }, []);
 
   const handleDelete = (id) => {
-    const updated = resources.filter((res) => res.id !== id);
-    setResources(updated);
-    localStorage.setItem("uploadedData", JSON.stringify(updated));
+    const updatedResources = resources.filter((res) => res.id !== id);
+    setResources(updatedResources);
+    localStorage.setItem("uploadedData", JSON.stringify(updatedResources));
+  };
+
+  const handleRename = (id, newName) => {
+    const updatedResources = resources.map((res) =>
+      res.id === id ? { ...res, name: newName } : res
+    );
+    setResources(updatedResources);
+    localStorage.setItem("uploadedData", JSON.stringify(updatedResources));
   };
 
   return (
@@ -32,7 +40,11 @@ function Resource() {
               <h6 className="text-secondary">PDF</h6>
             </div>
           </div>
-          <ResourceMenu onDelete={() => handleDelete(item.id)} />
+          <ResourceMenu
+            resource={item}
+            onRename={handleRename}
+            onDelete={() => handleDelete(item.id)}
+          />
         </div>
       ))}
     </div>

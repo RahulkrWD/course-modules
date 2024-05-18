@@ -38,6 +38,7 @@ export default function TransitionsModal() {
       const existingLinks = JSON.parse(localStorage.getItem("links")) || [];
       const updatedLinks = [...existingLinks, newLink];
       localStorage.setItem("links", JSON.stringify(updatedLinks));
+
       handleClose();
     } else {
       alert("Please enter URL and Display Name.");
@@ -74,8 +75,8 @@ export default function TransitionsModal() {
               </button>
             </div>
             <div style={{ marginTop: "15px" }}>
+              <p>URL</p>
               <form>
-                <p>URL</p>
                 <input
                   className="w-100 p-1 mt-1"
                   type="text"
@@ -98,6 +99,7 @@ export default function TransitionsModal() {
                   </button>
                   <button
                     onClick={handleAddLink}
+                    type="submit"
                     className="btn text-bg-primary m-2"
                   >
                     Add

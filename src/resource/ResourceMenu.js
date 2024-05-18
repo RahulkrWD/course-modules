@@ -8,10 +8,10 @@ import { styled } from "@mui/system";
 import { CssTransition } from "@mui/base/Transitions";
 import { PopupContext } from "@mui/base/Unstable_Popup";
 import { BsThreeDotsVertical } from "react-icons/bs";
-import { MdDriveFileRenameOutline } from "react-icons/md";
 import { GoDownload } from "react-icons/go";
 import { RiDeleteBinLine } from "react-icons/ri";
-export default function MenuTransitions({ onDelete }) {
+import ResourceRename from "./ResourceRename";
+export default function MenuTransitions({ onRename, onDelete, resource }) {
   return (
     <Dropdown>
       <MenuButton>
@@ -20,12 +20,16 @@ export default function MenuTransitions({ onDelete }) {
       </MenuButton>
       <Menu slots={{ listbox: AnimatedListbox }}>
         <MenuItem className="text-secondary">
-          <MdDriveFileRenameOutline /> Rename
+          <ResourceRename onRename={onRename} resource={resource} />
         </MenuItem>
-        <MenuItem className="text-secondary">
+        <MenuItem sx={{ cursor: "pointer" }} className="text-secondary">
           <GoDownload /> Download
         </MenuItem>
-        <MenuItem className="text-danger" onClick={onDelete}>
+        <MenuItem
+          sx={{ cursor: "pointer" }}
+          className="text-danger"
+          onClick={onDelete}
+        >
           <RiDeleteBinLine /> Delete
         </MenuItem>
       </Menu>

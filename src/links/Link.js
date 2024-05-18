@@ -19,6 +19,14 @@ function Link() {
     localStorage.setItem("links", JSON.stringify(updatedLinks));
   };
 
+  const handleRename = (id, newName) => {
+    const updatedResources = links.map((res) =>
+      res.id === id ? { ...res, name: newName } : res
+    );
+    setLinks(updatedResources);
+    localStorage.setItem("uploadedData", JSON.stringify(updatedResources));
+  };
+
   return (
     <div className="container">
       {links.map((item, index) => (
@@ -32,7 +40,11 @@ function Link() {
               <h6 className="text-secondary">Link</h6>
             </div>
           </div>
-          <LinkMenu onDelete={() => handleDelete(item.id)} />
+          <LinkMenu
+            links={item}
+            onRename={handleRename}
+            onDelete={() => handleDelete(item.id)}
+          />
         </div>
       ))}
     </div>
