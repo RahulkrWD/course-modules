@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useDrag } from "react-dnd";
 import { FaFilePdf } from "react-icons/fa6";
 import styles from "../App.module.css";
 import ResourceMenu from "./ResourceMenu";
@@ -37,26 +38,50 @@ function Resource() {
   return (
     <div className="container">
       {resources.map((item, index) => (
-        <div key={index} className={`container ${styles.pdf}`}>
-          <div className={`p-1 d-flex gap-3`}>
-            <div className={`m-2 ${styles.pdf_icons}`}>
-              <FaFilePdf />
-            </div>
-            <div>
-              <h6>{item.name}</h6>
-              <h6 className="text-secondary">PDF</h6>
-            </div>
-          </div>
-          <ResourceMenu
-            resource={item}
-            onRename={handleRename}
-            onDelete={() => handleDelete(item.id)}
-            onDownload={() => handleDownload(item.fileData, item.name)}
-          />
-        </div>
+        <DraggableResource
+          key={index}
+          resource={item}
+          onRename={handleRename}
+          onDelete={handleDelete}
+          onDownload={handleDownload}
+        />
       ))}
     </div>
   );
 }
+
+const DraggableResource = ({ resource, onRename, onDelete, onDownload }) => {
+  const [{ isDragging }, drag] = useDrag(() => ({
+    type: "RESOURCE",
+    item: { ...resource, type: "RESOURCE" },
+    collect: (monitor) => ({
+      isDragging: !!monitor.isDragging(),
+    }),
+  }));
+
+  return (
+    <div
+      ref={drag}
+      className={`container ${styles.pdf}`}
+      style={{ opacity: isDragging ? 0.5 : 1 }}
+    >
+      <div className={`p-1 d-flex gap-3`}>
+        <div className={`m-2 ${styles.pdf_icons}`}>
+          <FaFilePdf />
+        </div>
+        <div>
+          <h6>{resource.name}</h6>
+          <h6 className="text-secondary">PDF</h6>
+        </div>
+      </div>
+      <ResourceMenu
+        resource={resource}
+        onRename={onRename}
+        onDelete={() => onDelete(resource.id)}
+        onDownload={() => onDownload(resource.fileData, resource.name)}
+      />
+    </div>
+  );
+};
 
 export default Resource;

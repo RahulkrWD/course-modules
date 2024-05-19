@@ -51,3 +51,11 @@
   color: #059ff9;
   background-color: #7bbee48b;
 }
+
+.drag {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 7px;
+  border: 1px solid gray;
+}
